@@ -2,7 +2,7 @@ import _axios from 'axios';
 
 const axios = baseUrl => {
     const instance = _axios.create({
-        baseURL: 'https://le-sillage.herokuapp.com' || 'http://localhost:5000'
+        baseURL: baseUrl || 'http://localhost:5000'
     });
     return instance;
 };

@@ -26,9 +26,9 @@ Remember that _"this document"_ can use `different formats` to **highlight** imp
 
 |                 Name                              | Task                        |         State          |
 |                 :---                              |            :---:            |          ---:          |
-| Zixi Qin, Mengyan Zhang, Zhishang Wang, Yixin Cai |           Back End          |  deliverable 3 done    |
+| Zixi Qin, Mengyan Zhang, Zhishang Wang, Yixin Cai |           Back End          |  deliverable 2 done    |
 | Xiaochen Hou                                      |          Front End          |  Testing               |
-| Mengyan Zhang, Zixi Qin, Zhishang Wang,Yixin Cai  |         README Format       |  deliverable 3 done    |
+| Mengyan Zhang, Zixi Qin, Zhishang Wang,Yixin Cai  |         README Format       |  deliverable 2 done    |
 
 ## General info
 
@@ -52,7 +52,7 @@ All the features for each part are stored in their corresponding "models.js" and
 
 The followings are the variables for customer, vendor, order and snack shown on the Postman, which is used the URL link from heroku. While the URL link in the comment in code is the one with "localhost". 
 
-<h1> DELIEVERABLE 2 </h1>
+
 Access details to our database: 
 mongoURL: 'mongodb+srv://LeSillage:ls1234@cluster0.mhnoe.mongodb.net/Cluster0?retryWrites=true&w=majority'
 
@@ -257,50 +257,6 @@ then a fault message or error code say 404 Not Found will appear
 <p align="middle">
   <img src=" resource/readme/error/errorCannotUpateLocationByWrongVendorID.png"  width="900" >
 </p>
-
-<h1> DELIEVERABLE 3 </h1>
-
-## FOR ACCESSING OUR SERVER:
-<p>userName: bolun@gmail.com </p>
-<p> password: 123456</p>
-
-<br>In the terminal, you have to install these applications before access our website: <br>
-
-<br>Install all the package that we used in front end</br>
-<br> Enter: cd client/ </br>
-<br>Enter: </br>
-<br>npm install concurrently</br>
-<br>npm install antd</br>
-<br>npm install axis</br>
-<br>npm install bootstrap</br>
-<br>npm install react-bootstrap</br>
-<br>npm install leaflet</br>
-<br>npm install react-leaflet</br>
-<br>npm install socket.io-client</br>
-
-<br>Install all the package that we used in back end</br>
-<br>Enter: cd ..</br>
-<br>Enter: </br>
-<br>npm install express</br>
-<br>npm install nodemon</br>
-<br>npm install bcryptjs</br>
-<br>npm install mongoose</br>
-<br>npm install cors</br>
-<br>npm install socket.io</br>
-
-In this stage, we completed the login page for Customers and once they have been login. There is a map to indicate the location of the user and the nearest five vendors.
-
-## Notice for location setting of our vendors 
-As most locations of our vendors are based around University of Melbourne, you might need to drag your map (zoom out) to the area of university in order to find out our vendors. 
-
-They could first view menu of snacks which includes the corresponidng image, price and descirption after selecting one vendor. At the login page, they could choose to skip login, while they have to login again in order to start their orders. 
-
-## Notice for presentation of menu
-Those images on the page is just for presentation which means that they cannot be pressed. Also, the page header "Home" and "My account" are just for representation, please do not press on them ~
-
-For create a new order of different snacks, they can select quantities and press the button "sumbit" below and then the information of this order should be placed inside the "All orders" which includes the id of vendor they ordered from, a list of snacks they wanted and their order id.
-View menu of snacks (including pictures and prices)
-
 
 ## Technologies
 Project is created with:
