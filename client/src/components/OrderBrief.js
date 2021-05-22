@@ -75,7 +75,7 @@ export default class   extends React.Component {
     }
     
     handleShowOrderDetail = () => {
-        console.log(this.props.prder)
+        console.log(this.props.order)
     }
 
     handleEditOrder = () => {
