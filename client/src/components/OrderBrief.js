@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap'; 
-import { Card, notification,Divider,InputNumber,message, Rate, Input } from 'antd';
+import { Badge, Card, notification,Divider,InputNumber,message, Rate, Input } from 'antd';
 import { EyeOutlined, EditOutlined, CheckOutlined } from '@ant-design/icons';
 
 import CountUp from './CountUp.js';
@@ -166,7 +166,7 @@ export default class   extends React.Component {
         }else if(window.location.pathname ==="/orders"){
             return(
             [
-                    <EyeOutlined onClick = {()=> this.handleShow} />,
+                    <EyeOutlined onClick = {()=> this.handleShow()} />,
                     <CheckOutlined onClick = {()=> this.onOrderMark()} />
             ]
             )
@@ -174,10 +174,16 @@ export default class   extends React.Component {
     }
 
     onOrderMark =() =>{
-        var statusToBeUpdated = ''
+        var statusToBeUpdated, discount
         if(this.props.order.status === "outstanding"){
             statusToBeUpdated = 'fulfilled'
+            if(this.state.diff > 15){
+                discount = true
+            }else{
+                discount = false
+            }
             axios.post('/order/'+this.props.order._id+'/update',{
+                discount: discount,
                 status: statusToBeUpdated
             }).then(response =>{
                 if(response.data.success){
@@ -277,8 +283,17 @@ export default class   extends React.Component {
                     {this.renderEditModalContent()}
 
                 </Modal>
-
-
+                {this.props.order.discount ? 
+                    <Badge.Ribbon text = "order has benn discount">
+                        <Card style = {{margin: "10px"}}
+                            actions = {this.renderActions()}>
+                            <Meta title = {this.props.order.vendor.name + ' - ' + this.props.order.status} />
+                            {(this.props.order.status === "fulfilled") ? "order is fulfilled"
+                                :(this.props.order.status === "completed") ? "order is completed"
+                                    :<CountUp updatedAt={this.props.order.updatedAt} />}
+                        </Card>
+                </Badge.Ribbon> 
+                :
                 <Card style={{margin: "10px"}} 
                 actions={this.renderActions()}>
                     <Meta  title={this.props.order.vendor._id + " - " + this.props.order.status}/>
@@ -286,7 +301,7 @@ export default class   extends React.Component {
                         : (this.props.order.status === "completed") ? "Order is completed"
                             :<CountUp updatedAt={this.props.order.updatedAt} />}
 
-                </Card>
+                </Card>}
             </>
         )
     }
