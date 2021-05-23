@@ -70,3 +70,52 @@ exports.customerLoginPost = function(req,res){
         }
     })
 }
+
+// POST request to update customer
+exports.customerUpdatePost = function(req, res){
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+            if (err) {
+                throw (err);
+            }
+            Customer.findOneAndUpdate(
+                {email: req.body.email},
+                {
+                    familyName: req.body.familyName, 
+                    givenName: req.body.givenName, 
+                    email: req.body.email, 
+                    password: hash
+                },
+                {new: true},
+                function (err, updatedCustomer) {
+                    if(err){
+                        res.status(404).json({success: false, message:"customer email does not exist"});
+                    }else{
+                        res.status(200).json({success: true, updatedCustomer: updatedCustomer});
+                    }
+                }
+            )
+        });
+    });
+                   
+}
+
+// GET request to delete one customer
+exports.customerDeleteGet = function(req, res){
+    const { email } = req.query;
+    Customer.findOne( {email: email} ).then((customer) => {
+        if(!customer) {
+            res.status(409).json({error: 'User is not found in database'})
+        }else{
+            Customer.findOneAndDelete({email: email},
+                function (err) {
+                    if(err){
+                        res.status(404).json('Delete customer not succeed');
+                    }else{
+                        res.status(200).json('Delete customer succeed');
+                    }
+                }
+            );
+        }
+    });     
+}
