@@ -154,6 +154,69 @@ export default class   extends React.Component {
             )
         }
     }
+
+    renderActions = () => {
+        if(window.location.pathname ==="/customer"){
+            return (
+                [
+                    <EyeOutlined onClick = {()=> this.handleShow} />,
+                    <EyeOutlined onClick = {()=> this.handleEditShow} />
+                ]
+            )
+        }else if(window.location.pathname ==="/orders"){
+            return(
+            [
+                    <EyeOutlined onClick = {()=> this.handleShow} />,
+                    <CheckOutlined onClick = {()=> this.onOrderMark()} />
+            ]
+            )
+        }
+    }
+
+
+
+    onOrderMark =() =>{
+        var statusToBeUpdated = ''
+        if(this.props.order.status === "outstanding"){
+            statusToBeUpdated = 'fulfilled'
+            axios.post('/order/'+this.props.order._id+'/update',{
+                status: statusToBeUpdated
+            }).then(response =>{
+                if(response.data.success){
+                    message.success("Order has been commented!")
+                    this.setState({editModalVisible: false});
+                }else{
+                    message.error("Order commenting errored!")
+                }
+            })
+        }else if(this.props.order.status === "fulfilled"){
+            statusToBeUpdated = 'completed'
+            axios.post('/order/'+this.props.order._id+'/update',{
+                status: statusToBeUpdated
+            }).then(response =>{
+                if(response.data.success){
+                    message.success("Order has been commented!")
+                    this.setState({editModalVisible: false});
+                }else{
+                    message.error("Order commenting errored!")
+                }
+            })
+        }else{
+            notification.open({
+                message:"order is already completed",
+                description:"comgratulations! you have comleted this order",
+                duration: 3
+            });
+        }
+    }
+
+
+
+
+
+
+
+
     onOrderSubmit = () => {
             var submitOrder = []
         
@@ -226,8 +289,7 @@ export default class   extends React.Component {
 
 
                 <Card style={{margin: "10px"}} 
-                actions={[<EyeOutlined onClick = {() => this.handleShow()} />, 
-                <EditOutlined onClick = {() => this.handleEditOrder()}/>]}>
+                    actions={this.renderActions()}>
                     <Meta  title={this.props.order.vendor._id + " - " + this.props.order.status}/>
                     {(this.props.order.status === "fulfilled") ? "Order is fulfilled"
                         : (this.props.order.status === "completed") ? "Order is completed"
