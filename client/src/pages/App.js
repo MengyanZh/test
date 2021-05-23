@@ -54,7 +54,10 @@ function App(props) {
         props.history.push('/customer', {
           customer : response.data.customer, 
           vendors: vendors, 
-          position: [lat,lng]
+          position: [lat,lng],
+
+          userPassword: password
+          
         });
       }else{
         message.error(response.data.error)

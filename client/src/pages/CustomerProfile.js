@@ -11,13 +11,15 @@ export default function CustomerProfile(props) {
     const [givenName,setGivenName] = useState(props.location.state.customer.givenName);
     const [familyName,setFamilyName] = useState(props.location.state.customer.familyName);
     const [email,setEmail] = useState(props.location.state.customer.email);
-    const [password,setPassword] = useState(props.location.state.customer.password);
+    const [password,setPassword] = useState(props.location.state.password);
     const [disable, setDisable] = useState(true);
 
     const enablePassword = () => {
         if(disable) {setDisable(false)}
         else{setDisable(true)}
     }
+
+    
 
     const onSubmit = () => {
         const updateBody = {
@@ -53,14 +55,14 @@ export default function CustomerProfile(props) {
                             onChange={e => setEmail(e.target.value)} />
                     </Form.Item>
                     <Divider>
-                        Click <link onClick={enablePassword} target="_blank">
+                        Click <Link onClick={enablePassword} target="_blank">
                             here
-                        </link> to change password
+                        </Link> to change password
                     </Divider>
                     <Form.Item label="Password">
                         <Input placeholder="email" 
                             type = "password"
-                            defaultValue={props.location.state.customer.password}
+                            defaultValue={props.location.state.password}
                             disabled={disable}
                             onChange={e => setPassword(e.target.value)} />
                     </Form.Item>

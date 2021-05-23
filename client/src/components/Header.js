@@ -16,6 +16,8 @@ export default function Header(props) {
     const [options, setOptions] = useState([]);
     const [target, setTarget] = useState('');
 
+
+
     useEffect(() => {
         if (history.location.pathname === "/customer"){
             setTitle('Welcome ' + props.customer.givenName)
@@ -24,7 +26,8 @@ export default function Header(props) {
                 onClick = {()=> {
                     history.push('/profile',{
                         customer:props.customer,
-                        orders: props.orders
+                        orders: props.orders,
+                        password: props.password
                     });
                 }}>Profile</Button>,
             <Button variant = "outline-dark" key = "1" onClick = {handleDrawerShow}>See Orders</Button>])
