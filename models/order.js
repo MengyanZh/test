@@ -29,12 +29,6 @@ var OrderSchema = new Schema({
         },
         rating: {
             type: Number,
-        },
-        total:{
-            type: Number
-        },
-        discount:{
-            type: Boolean
         }
     },
 
