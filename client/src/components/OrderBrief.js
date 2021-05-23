@@ -187,6 +187,7 @@ export default class   extends React.Component {
             
     }
 
+    // 可以加判断是否可以二次更改comment
     onCommentSubmit = () => {
         axios.post('/order/'+this.props.order._id+'/update',{
             // customer:this.props.order.customer._id,
