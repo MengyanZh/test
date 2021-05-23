@@ -9,4 +9,6 @@ router.post('/register', customerController.customerNewUserPost)
 // POST request for customer login 
 router.post('/login', customerController.customerLoginPost)
 
+// POST request for customer update 
+router.post('/update', customerController.customerUpdatePost)
 module.exports = router;
