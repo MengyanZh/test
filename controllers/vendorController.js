@@ -49,7 +49,7 @@ exports.vendorParkUpdate = function(req, res) {
             if (err) {
                 res.status(404).json({
                     success: false, 
-                    err: err });
+                    message: 'vendorId does not exist' });
             } else {
                 res.status(200).json({ 
                     success: true, 
