@@ -1,11 +1,14 @@
 import React from 'react'
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap'; 
-import { Card, notification,Divider,InputNumber,message } from 'antd';
+import { Card, notification,Divider,InputNumber,message, Rate, Input } from 'antd';
 import { EyeOutlined, EditOutlined, CheckOutlined } from '@ant-design/icons';
 
 import CountUp from './CountUp.js';
 import axios from '../commons/axios';
+// import TextArea from 'antd/lib/input/TextArea';
 
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+const {TextArea} = Input;
 const { Meta } = Card;
 
 export default class   extends React.Component {
@@ -18,7 +21,9 @@ export default class   extends React.Component {
             modalVisible: false,
             editModalVisibale: false,
             modalBody: <> </>,
-            diff: ""
+            diff: "",
+            ratings: 0,
+            comment: ""
         }
     }
 
@@ -58,6 +63,15 @@ export default class   extends React.Component {
     
     handleShowOrderDetail = () => {
         console.log(this.props.order)
+    }
+
+    ratingsChange = (value) => {
+        console.log(value)
+        this.setState({ratings: value});
+    };
+
+    commentChange = (value) => {
+        this.setState({comment: value});
     }
 
     handleEditOrder = () => {
@@ -123,76 +137,23 @@ export default class   extends React.Component {
                     <Modal.Body>
                         <p>Vendor:{this.props.order.vendor.name}</p>
                         <p>Snacks:{this.props.order.snacks.map((snack)=> <li key={snack.name}>{snack.name} - qty: {snack.qty}</li>)}</p>
-                        <p>commoent and rating</p>
+                        <Divider>Rate your experience</Divider>
+                        <p>ratings:</p><Rate onChange={(e) => this.ratingsChange(e)}/>
+                        <Divider></Divider>
+                        <p>Comment</p><TextArea rows={4} onChange={(e) => this.commentChange(e.target.value)}/>
+                        {/* {this.state.ratings ? <span className="ant-rate-text">{desc[this.state.ratings - 1]}</span> : ''} */}
+
                     </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="dark" onClick={() => this.onCommentSubmit()}>
+                            Submit
+                        </Button>
+                    </Modal.Footer>
                 </>
 
             )
         }
     }
-
-    renderActions = () => {
-        if(window.location.pathname ==="/customer"){
-            return (
-                [
-                    <EyeOutlined onClick = {()=> this.handleShow} />,
-                    <EyeOutlined onClick = {()=> this.handleEditShow} />
-                ]
-            )
-        }else if(window.location.pathname ==="/orders"){
-            return(
-            [
-                    <EyeOutlined onClick = {()=> this.handleShow} />,
-                    <CheckOutlined onClick = {()=> this.onOrderMark()} />
-            ]
-            )
-        }
-    }
-
-
-
-    onOrderMark =() =>{
-        var statusToBeUpdated = ''
-        if(this.props.order.status === "outstanding"){
-            statusToBeUpdated = 'fulfilled'
-            axios.post('/order/'+this.props.order._id+'/update',{
-                status: statusToBeUpdated
-            }).then(response =>{
-                if(response.data.success){
-                    message.success("Order has been commented!")
-                    this.setState({editModalVisible: false});
-                }else{
-                    message.error("Order commenting errored!")
-                }
-            })
-        }else if(this.props.order.status === "fulfilled"){
-            statusToBeUpdated = 'completed'
-            axios.post('/order/'+this.props.order._id+'/update',{
-                status: statusToBeUpdated
-            }).then(response =>{
-                if(response.data.success){
-                    message.success("Order has been commented!")
-                    this.setState({editModalVisible: false});
-                }else{
-                    message.error("Order commenting errored!")
-                }
-            })
-        }else{
-            notification.open({
-                message:"order is already completed",
-                description:"comgratulations! you have comleted this order",
-                duration: 3
-            });
-        }
-    }
-
-
-
-
-
-
-
-
     onOrderSubmit = () => {
             var submitOrder = []
         
@@ -216,17 +177,32 @@ export default class   extends React.Component {
                     status:"outstanding"
                 }).then(response =>{
                     if(response.data.success){
-                        message.success("Order has been placed!")
+                        message.success("Order has been updated!")
                         this.setState({editModalVisible: false});
                     }else{
-                        message.error("Order placing errored!")
+                        message.error("Order updating errored!")
                     }
                 })
             }
             
     }
 
-
+    // 可以加判断是否可以二次更改comment
+    onCommentSubmit = () => {
+        axios.post('/order/'+this.props.order._id+'/update',{
+            // customer:this.props.order.customer._id,
+            // vendor: this.props.order.vendor._id, //will be changed in the future
+            comment: this.state.comment,
+            rating: this.state.ratings
+        }).then(response =>{
+            if(response.data.success){
+                message.success("Order has been commented!")
+                this.setState({editModalVisible: false});
+            }else{
+                message.error("Order commenting errored!")
+            }
+        })
+    }
 
 
     render() {
@@ -250,7 +226,8 @@ export default class   extends React.Component {
 
 
                 <Card style={{margin: "10px"}} 
-                    actions={this.renderActions()}>
+                actions={[<EyeOutlined onClick = {() => this.handleShow()} />, 
+                <EditOutlined onClick = {() => this.handleEditOrder()}/>]}>
                     <Meta  title={this.props.order.vendor._id + " - " + this.props.order.status}/>
                     {(this.props.order.status === "fulfilled") ? "Order is fulfilled"
                         : (this.props.order.status === "completed") ? "Order is completed"
