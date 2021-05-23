@@ -36,6 +36,7 @@ export default function Menu(props){
 
 
     const onSubmit = () => {
+        var total = 0
         if (!props.customer){
 
             message.error("You need to login to place order!")
@@ -48,10 +49,16 @@ export default function Menu(props){
                 if(Number.isFinite(order[i])){
                     submitOrder.push({
                         "name":props.snacks[i].name,
-                        "qty":order[i]
+                        "qty":order[i],
+                        "price": props.snacks[i].price
                     })
                 }
             }
+            for (var j = 0; j < submitOrder.length; j++){
+                let update = total + submitOrder[j].price * submitOrder[j].qty
+                total = update
+            }
+            // console.log(total)
             if (submitOrder.length ===0){
                 setModalVisible(false)
                 message.error("You need to enter more than one snack!")
@@ -60,7 +67,8 @@ export default function Menu(props){
                 axios.post('/order/create',{
                     customer:props.customer.id,
                     vendor: props.vendor.id, //will be changed in the future
-                    snacks: submitOrder
+                    snacks: submitOrder,
+                    total: total
                 }).then(response =>{
                     if(response.data.success){
                         message.success("Order has been placed!")
@@ -90,7 +98,7 @@ export default function Menu(props){
                     {props.snacks.map((snack, index) =>(
                         <Card cover={<img alt="example" src={snack.image} />}style={{marginBottom:"2vh"}}size={"small"} key={snack._id}>
                             <Meta
-                                title={snack.name + "    " + snack.price}
+                                title={snack.name + "   " + "$" +snack.price}
                             />
                             <Divider style={{borderWidth:5, borderColor: '#593e34' }} plain>
                             </Divider>
