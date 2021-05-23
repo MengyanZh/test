@@ -44,9 +44,10 @@ exports.orderRequestGet = function(req, res) {
  */
 exports.orderStatusUpdate = function(req, res) {
     Order.findByIdAndUpdate(
-        req.params.id, 
-        req.body, 
-        { new: true },
+        req.params.id, {
+            snacks: req.body.snacks,
+            status: req.body.status
+        }, { new: true },
         function(err, updatedChange) {
             if (err) {
                 res.status(404).json({

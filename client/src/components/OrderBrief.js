@@ -1,14 +1,11 @@
 import React from 'react'
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap'; 
-import { Card, notification,Divider,InputNumber,message, Rate, Input } from 'antd';
+import { Card, notification,Divider,InputNumber,message } from 'antd';
 import { EyeOutlined, EditOutlined, CheckOutlined } from '@ant-design/icons';
 
 import CountUp from './CountUp.js';
 import axios from '../commons/axios';
-// import TextArea from 'antd/lib/input/TextArea';
 
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-const {TextArea} = Input;
 const { Meta } = Card;
 
 export default class   extends React.Component {
@@ -21,9 +18,7 @@ export default class   extends React.Component {
             modalVisible: false,
             editModalVisibale: false,
             modalBody: <> </>,
-            diff: "",
-            ratings: 0,
-            comment: ""
+            diff: ""
         }
     }
 
@@ -63,15 +58,6 @@ export default class   extends React.Component {
     
     handleShowOrderDetail = () => {
         console.log(this.props.order)
-    }
-
-    ratingsChange = (value) => {
-        console.log(value)
-        this.setState({ratings: value});
-    };
-
-    commentChange = (value) => {
-        this.setState({comment: value});
     }
 
     handleEditOrder = () => {
@@ -137,18 +123,8 @@ export default class   extends React.Component {
                     <Modal.Body>
                         <p>Vendor:{this.props.order.vendor.name}</p>
                         <p>Snacks:{this.props.order.snacks.map((snack)=> <li key={snack.name}>{snack.name} - qty: {snack.qty}</li>)}</p>
-                        <Divider>Rate your experience</Divider>
-                        <p>ratings:</p><Rate onChange={(e) => this.ratingsChange(e)}/>
-                        <Divider></Divider>
-                        <p>Comment</p><TextArea rows={4} onChange={(e) => this.commentChange(e.target.value)}/>
-                        {/* {this.state.ratings ? <span className="ant-rate-text">{desc[this.state.ratings - 1]}</span> : ''} */}
-
+                        <p>commoent and rating</p>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="dark" onClick={() => this.onCommentSubmit()}>
-                            Submit
-                        </Button>
-                    </Modal.Footer>
                 </>
 
             )
@@ -240,31 +216,17 @@ export default class   extends React.Component {
                     status:"outstanding"
                 }).then(response =>{
                     if(response.data.success){
-                        message.success("Order has been updated!")
+                        message.success("Order has been placed!")
                         this.setState({editModalVisible: false});
                     }else{
-                        message.error("Order updating errored!")
+                        message.error("Order placing errored!")
                     }
                 })
             }
             
     }
 
-    onCommentSubmit = () => {
-        axios.post('/order/'+this.props.order._id+'/update',{
-            // customer:this.props.order.customer._id,
-            // vendor: this.props.order.vendor._id, //will be changed in the future
-            comment: this.state.comment,
-            rating: this.state.ratings
-        }).then(response =>{
-            if(response.data.success){
-                message.success("Order has been commented!")
-                this.setState({editModalVisible: false});
-            }else{
-                message.error("Order commenting errored!")
-            }
-        })
-    }
+
 
 
     render() {
