@@ -112,22 +112,22 @@ exports.customerUpdatePost = function(req, res){
                    
 }
 
-// GET request to delete one customer
-exports.customerDeleteGet = function(req, res){
-    const { email } = req.query;
-    Customer.findOne( {email: email} ).then((customer) => {
-        if(!customer) {
-            res.status(409).json({error: 'User is not found in database'})
-        }else{
-            Customer.findOneAndDelete({email: email},
-                function (err) {
-                    if(err){
-                        res.status(404).json('Delete customer not succeed');
-                    }else{
-                        res.status(200).json('Delete customer succeed');
-                    }
-                }
-            );
-        }
-    });     
-}
+// // GET request to delete one customer
+// exports.customerDeleteGet = function(req, res){
+//     const { email } = req.query;
+//     Customer.findOne( {email: email} ).then((customer) => {
+//         if(!customer) {
+//             res.status(409).json({error: 'User is not found in database'})
+//         }else{
+//             Customer.findOneAndDelete({email: email},
+//                 function (err) {
+//                     if(err){
+//                         res.status(404).json('Delete customer not succeed');
+//                     }else{
+//                         res.status(200).json('Delete customer succeed');
+//                     }
+//                 }
+//             );
+//         }
+//     });     
+// }

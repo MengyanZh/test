@@ -39,7 +39,7 @@ export default function Header(props) {
         }else if(history.location.pathname ==='/vendor'){
             setTitle('Welcome back ' + props.vendor.userName)
         }else{
-            setTitle('welcome')
+            setTitle('Welcome to orders list')
         }
     }, []); 
 

@@ -143,7 +143,7 @@ export default class   extends React.Component {
                         <p>Vendor:{this.props.order.vendor.name}</p>
                         <p>Snacks:{this.props.order.snacks.map((snack)=> <li key={snack.name}>{snack.name} - qty: {snack.qty}</li>)}</p>
                         <Divider>Rate your experience</Divider>
-                        <p>ratings:</p><Rate onChange={(e) => this.ratingsChange(e)}/>
+                        <p>Ratings:</p><Rate onChange={(e) => this.ratingsChange(e)}/>
                         <Divider></Divider>
                         <p>Comment</p><TextArea rows={4} onChange={(e) => this.commentChange(e.target.value)}/>
                         {/* {this.state.ratings ? <span className="ant-rate-text">{desc[this.state.ratings - 1]}</span> : ''} */}
@@ -225,10 +225,10 @@ export default class   extends React.Component {
                 status: statusToBeUpdated
             }).then(response =>{
                 if(response.data.success){
-                    message.success("Order has been commented!")
+                    message.success("Order has been fulfilled!")
                     this.setState({editModalVisible: false});
                 }else{
-                    message.error("Order commenting errored!")
+                    message.error("Order fulfilled errored!")
                 }
             })
         }else if(this.props.order.status === "fulfilled"){
@@ -237,16 +237,16 @@ export default class   extends React.Component {
                 status: statusToBeUpdated
             }).then(response =>{
                 if(response.data.success){
-                    message.success("Order has been commented!")
+                    message.success("Order has been completed!")
                     this.setState({editModalVisible: false});
                 }else{
-                    message.error("Order commenting errored!")
+                    message.error("Order completed errored!")
                 }
             })
         }else{
             notification.open({
                 message:"order is already completed",
-                description:"comgratulations! you have comleted this order",
+                description:"comgratulations! you have completed this order",
                 duration: 3
             });
         }

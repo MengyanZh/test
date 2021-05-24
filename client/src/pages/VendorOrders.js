@@ -28,10 +28,11 @@ export default function VendorOrders(props) {
                     <Button onClick={()=> setStatus('&status=outstanding')}>Outstanding</Button>
                     <Button onClick={()=> setStatus('&status=fulfilled')} style={{marginLeft:'1vw'}}>Fulfilled</Button>
                     <Button onClick={()=> setStatus('&status=completed')} style={{marginLeft:'1vw'}}>Completed</Button>
+                    <Button onClick={()=> setStatus('&status=cancelled')} style={{marginLeft:'1vw'}}>Cancelled</Button>
                 </Row>
 
             </div>
-            <OrderList id={props.location.state.vendor.id} target={target} status = {status} />
+            <OrderList id={props.location.state.vendor._id} target={target} status = {status} />
         </div>
     )
 }
