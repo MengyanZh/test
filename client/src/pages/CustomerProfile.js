@@ -11,7 +11,7 @@ export default function CustomerProfile(props) {
     const [givenName,setGivenName] = useState(props.location.state.customer.givenName);
     const [familyName,setFamilyName] = useState(props.location.state.customer.familyName);
     const [email,setEmail] = useState(props.location.state.customer.email);
-    const [password,setPassword] = useState(props.location.state.password);
+    const [password,setPassword] = useState(props.location.state.customer.password);
     const [disable, setDisable] = useState(true);
 
     const enablePassword = () => {
@@ -28,12 +28,14 @@ export default function CustomerProfile(props) {
             "email": email,
             "password": password
         }
-        axios.post('/customer/update', updateBody).then(response => {
+        axios.post('/customer/update/' + props.location.state.customer.id, updateBody).then((response,err) => {
             if (response.data.success){
                 message.success("customer details update succsess")
             }else{
                 message.error(response.data.error)
             }
+        }).catch(error =>{
+            message.error("another customer already registered that email")
         })
     }
 
@@ -43,15 +45,15 @@ export default function CustomerProfile(props) {
             <div style={{width: '40%', margin: 'auto'}}>
                 <Form form={form} layout="vertical">
                     <Form.Item label="Given Name">
-                        <Input placeholder="given name" defaultValue={props.location.state.customer.givenName}
+                        <Input placeholder="given name" defaultValue={givenName}
                             onChange={e => setGivenName(e.target.value)} />
                     </Form.Item>
                     <Form.Item label="Family Name">
-                        <Input placeholder="family name" defaultValue={props.location.state.customer.familyName}
+                        <Input placeholder="family name" defaultValue={familyName}
                             onChange={e => setFamilyName(e.target.value)} />
                     </Form.Item>
                     <Form.Item label="Email">
-                        <Input placeholder="email" defaultValue={props.location.state.customer.email}
+                        <Input placeholder="email" defaultValue={email}
                             onChange={e => setEmail(e.target.value)} />
                     </Form.Item>
                     <Divider>
@@ -62,12 +64,12 @@ export default function CustomerProfile(props) {
                     <Form.Item label="Password">
                         <Input placeholder="email" 
                             type = "password"
-                            defaultValue={props.location.state.password}
+                            defaultValue={props.location.state.customer.password}
                             disabled={disable}
                             onChange={e => setPassword(e.target.value)} />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" onClick={onSubmit}>Submit</Button>
+                        <Button type="dark" onClick={onSubmit}>Submit</Button>
                     </Form.Item>
                 </Form>
             </div>

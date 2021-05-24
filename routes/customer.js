@@ -10,5 +10,5 @@ router.post('/register', customerController.customerNewUserPost)
 router.post('/login', customerController.customerLoginPost)
 
 // POST request for customer update 
-router.post('/update', customerController.customerUpdatePost)
+router.post('/update/:id', customerController.customerUpdatePost)
 module.exports = router;
