@@ -94,25 +94,15 @@ function App(props) {
     });
   }
 
-  const onCustomerRegister = () => {
-    axios.post("customer/register").then(response => {
-      if(response.data.success){
-        //传递本页信息到下一页
-        props.history.push('/customer', {
-          customer : response.data.customer, 
-          vendors: vendors, 
-          position: [lat,lng],
 
-          userPassword: password
-          
-        });
-      }else{
-        message.error(response.data.error)
-      }
-    }).catch(error =>{
-      console.log(error)
-      })
+  const onCustomerRegister = () =>{
+    props.history.push('/register',{
+      position:[lat, lng],
+      vendors: vendors
+    });
   }
+
+
 
   const customerModal = (
     <>
