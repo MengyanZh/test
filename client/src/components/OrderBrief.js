@@ -95,6 +95,12 @@ export default class   extends React.Component {
                 description:'You can only update your order within 10 min after placing the order',
                 duration: 3
             });
+        }else if(this.props.order.status=== 'cancelled'){
+            notification.open({
+                message:'Order has been cancelled',
+                description:'You can order later',
+                duration: 3
+            });
         }else{
             console.log(this.props.order)
             this.setState({editModalVisible: true});
