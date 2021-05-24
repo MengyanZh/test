@@ -174,8 +174,9 @@ export default class   extends React.Component {
                 if(response.data.success){
                     message.success("Order has been cancelled!")
                     this.setState({editModalVisible: false});
+                    
                 }else{
-                    message.error("Order commenting errored!")
+                    message.error("Order cancelled errored!")
                 }
             })
         }else{
