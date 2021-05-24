@@ -94,6 +94,26 @@ function App(props) {
     });
   }
 
+  const onCustomerRegister = () => {
+    axios.post("customer/register").then(response => {
+      if(response.data.success){
+        //传递本页信息到下一页
+        props.history.push('/customer', {
+          customer : response.data.customer, 
+          vendors: vendors, 
+          position: [lat,lng],
+
+          userPassword: password
+          
+        });
+      }else{
+        message.error(response.data.error)
+      }
+    }).catch(error =>{
+      console.log(error)
+      })
+  }
+
   const customerModal = (
     <>
       <Modal.Header closeButton>
@@ -118,6 +138,9 @@ function App(props) {
           <Link onClick={onSkip}>
             Skip for now
             </Link>
+          <Link onClick={onCustomerRegister} style = {{marginLeft: "1vw"}}>
+            Register
+          </Link>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-dark" onClick={handleClose}>

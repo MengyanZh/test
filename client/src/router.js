@@ -5,6 +5,7 @@ import CustomerMain from './pages/CustomerMain.js';
 import CustomerProfile from './pages/CustomerProfile.js';
 import VendorPark from './pages/VendorPark.js';
 import VendorOrders from './pages/VendorOrders';
+import CustomerRegister from './pages/CustomerRegister.js';
 
 class Router extends React.Component{
     render() {
@@ -14,6 +15,7 @@ class Router extends React.Component{
                     <Route path="/" exact component={App}></Route>
                     <Route path="/customer" exact component={CustomerMain}></Route>
                     <Route path="/profile" exact component={CustomerProfile}></Route>
+                    <Route path="/register" exact component={CustomerRegister}></Route>
                     <Route path="/vendor" exact component={VendorPark}></Route>
                     <Route path="/orders" exact component={VendorOrders}></Route>
                 </Switch>
