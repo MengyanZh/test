@@ -94,6 +94,16 @@ function App(props) {
     });
   }
 
+
+  const onCustomerRegister = () =>{
+    props.history.push('/register',{
+      position:[lat, lng],
+      vendors: vendors
+    });
+  }
+
+
+
   const customerModal = (
     <>
       <Modal.Header closeButton>
@@ -118,6 +128,9 @@ function App(props) {
           <Link onClick={onSkip}>
             Skip for now
             </Link>
+          <Link onClick={onCustomerRegister} style = {{marginLeft: "1vw"}}>
+            Register
+          </Link>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-dark" onClick={handleClose}>

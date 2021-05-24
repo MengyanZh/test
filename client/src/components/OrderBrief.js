@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap'; 
 import { Badge, Card, notification,Divider,InputNumber,message, Rate, Input } from 'antd';
-import { EyeOutlined, EditOutlined, CheckOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 
 import CountUp from './CountUp.js';
 import axios from '../commons/axios';
@@ -35,6 +35,10 @@ export default class   extends React.Component {
     handleEditClose = () => this.setState({editModalVisible: false});
     handleEditShow = () => this.setState({editModalVisible: true});
     
+    handleDeleteClose = () => this.setState({deleteModalVisible: false});
+    handleDeleteShow = () => this.setState({deleteModalVisible: true});
+
+
     onChange = (index, event) => {
         let newArray = [...this.state.order];
         newArray[index] = event;
@@ -96,6 +100,7 @@ export default class   extends React.Component {
             this.setState({editModalVisible: true});
         }
     }
+    
 
 
     renderEditModalContent = ()=>{
@@ -155,12 +160,42 @@ export default class   extends React.Component {
         }
     }
 
+    // handleDeleteClose = () => this.setState({deleteModalVisible: false});
+    // handleDeleteShow = () => this.setState({deleteModalVisible: true});
+
+    handleDeleteOrder = () => {
+        console.log(this.state.diff)
+        var statusToBeUpdated = ''
+        if(this.props.order.status ==="outstanding" && this.state.diff <= 10){
+            statusToBeUpdated = 'cancelled'
+            axios.post('/order/'+this.props.order._id+'/update',{
+                status: statusToBeUpdated
+            }).then(response =>{
+                if(response.data.success){
+                    message.success("Order has been cancelled!")
+                    this.setState({editModalVisible: false});
+                }else{
+                    message.error("Order commenting errored!")
+                }
+            })
+        }else{
+            console.log(this.props.order)
+            notification.open({
+                message:'Order cannot be cancelled!',
+                description:'Sorry, the order is completed/ fullfiled, you cannot delete it!',
+                duration: 3
+            });
+        }
+    }
+
+
     renderActions = () => {
         if(window.location.pathname ==="/customer"){
             return (
                 [
                     <EyeOutlined onClick = {() => this.handleShow()} />, 
-                    <EditOutlined onClick = {() => this.handleEditOrder()}/>
+                    <EditOutlined onClick = {() => this.handleEditOrder()}/>,
+                    <CloseOutlined onClick = {() => this.handleDeleteOrder()}/>
                 ]
             )
         }else if(window.location.pathname ==="/orders"){
@@ -266,6 +301,35 @@ export default class   extends React.Component {
             }
         })
     }
+
+    // onOrderDelete = () =>{
+    //     var statusToBeUpdated, cancelYes
+    //     if(this.props.order.status === "outstanding"){
+    //         statusToBeUpdated = 'cancelled'
+    //         if(this.state.diff < 10){
+    //             cancelYes = true
+    //         }
+    //         axios.post('/order/'+this.props.order._id+'/update',{
+    //             status: statusToBeUpdated
+    //         }).then(response =>{
+    //             if(response.data.success){
+    //                 message.success("Order has been cancelled!")
+    //                 this.setState({deleteModalVisible: false});
+    //             }else{
+    //                 message.error("Order cancelled errored!")
+    //             }
+    //         })
+    //     }else{
+    //         notification.open({
+    //             message:"order cannot be cancelled",
+    //             duration: 3
+    //         });
+    //     }
+    // }
+
+
+
+
 
 
     render() {
