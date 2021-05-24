@@ -355,12 +355,12 @@ export default class   extends React.Component {
 
                 </Modal>
                 {this.props.order.discount ? 
-                    <Badge.Ribbon text = "order has benn discount">
+                    <Badge.Ribbon text = "order has been discount">
                         <Card style = {{margin: "10px"}}
                             actions = {this.renderActions()}>
                             <Meta title = {this.props.order.vendor.name + ' - ' + this.props.order.status} />
-                            {(this.props.order.status === "fulfilled") ? "order is fulfilled"
-                                :(this.props.order.status === "completed") ? "order is completed"
+                            {(this.props.order.status === "fulfilled") ? "Order is fulfilled"
+                                :(this.props.order.status === "completed") ? "Order is completed"
                                     :<CountUp updatedAt={this.props.order.updatedAt} />}
                         </Card>
                 </Badge.Ribbon> 
@@ -370,7 +370,8 @@ export default class   extends React.Component {
                     <Meta  title={this.props.order.vendor._id + " - " + this.props.order.status}/>
                     {(this.props.order.status === "fulfilled") ? "Order is fulfilled"
                         : (this.props.order.status === "completed") ? "Order is completed"
-                            :<CountUp updatedAt={this.props.order.updatedAt} />}
+                            : (this.props.order.status === "cancelled") ? "Order is cancelled"
+                                :<CountUp updatedAt={this.props.order.updatedAt} />}
 
                 </Card>}
             </>
