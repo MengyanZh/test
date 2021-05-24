@@ -32,7 +32,7 @@ export default function VendorOrders(props) {
                 </Row>
 
             </div>
-            <OrderList id={props.location.state.vendor._id} target={target} status = {status} />
+            <OrderList id={props.location.state.vendor.id} target={target} status = {status} />
         </div>
     )
 }
