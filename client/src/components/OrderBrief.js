@@ -261,8 +261,14 @@ export default class   extends React.Component {
 
     onOrderSubmit = () => {
             var submitOrder = []
-        
+            var total = 0
+
+
             for (var i = 0; i < this.state.order.length; i++){
+
+                let update = total + this.state.menu[i].price * this.state.order[i]
+                total = update
+
                 if(Number.isFinite(this.state.order[i])){
                     submitOrder.push({
                         "name":this.state.menu[i].name,
@@ -270,6 +276,15 @@ export default class   extends React.Component {
                     })
                 }
             }
+            axios.post('/order/'+this.props.order._id+'/update',{
+                total: total
+            }).then(response =>{
+                if(response.data.success){
+                    message.success("price is change")
+                    this.setState({editModalVisible: false});
+                }
+            })
+
             if (submitOrder.length ===0){
                 this.setState({editModalVisible: false});
                 message.error("You need to enter more than one snack!")
